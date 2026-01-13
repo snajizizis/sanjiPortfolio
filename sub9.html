@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SanjiEstate | Luxe Real Estate</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b0d12;
+  --panel:#11131a;
+  --text:#f4f4f5;
+  --muted:#a1a1aa;
+  --accent:#7c3aed;
+  --accent2:#22d3ee;
+  --border:rgba(124,58,237,.35);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+
+body{
+  color:var(--text);
+  background:
+    radial-gradient(900px 400px at 10% 10%, #2b145f 0%, transparent 50%),
+    radial-gradient(800px 500px at 90% 30%, #1e3a8a 0%, transparent 55%),
+    var(--bg);
+  overflow-x:hidden;
+}
+
+#canvas-bg{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* ===== NAV ===== */
+.nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  height:70px;
+  padding:0 8vw;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  backdrop-filter:blur(14px);
+  background:linear-gradient(to bottom,rgba(0,0,0,.65),transparent);
+  z-index:100;
+}
+
+.logo{ font-weight:800; color:#fff; text-decoration:none; font-size:1.1rem; }
+.logo span{color:var(--accent);}
+
+.nav-links{ display:flex; align-items:center; gap:28px; }
+.nav-links a{ color:var(--muted); text-decoration:none; font-size:.95rem; transition:.3s; }
+.nav-links a:hover{ color:#fff; }
+
+.nav-cta{
+  padding:10px 20px;
+  border-radius:12px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:#fff !important;
+  font-weight:600;
+}
+
+/* ===== LAYOUT ===== */
+.wrapper{ position:relative; z-index:10; padding:0 8vw; }
+
+/* ===== HERO ===== */
+.hero{ height:100vh; display:flex; flex-direction:column; justify-content:center; }
+.hero h1{ font-size:clamp(3.5rem,8vw,6rem); font-weight:800; line-height:1; }
+.hero h1 span{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* ===== COOL POPPY CARDS ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px, 1fr));
+  gap:35px;
+  margin-bottom:120px;
+  perspective: 1000px; /* Crucial for 3D tilt */
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(25px);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 45px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease-out, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+/* The Shine Effect on Card Hover */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at var(--x) var(--y), rgba(255,255,255,0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.card:hover::before { opacity: 1; }
+
+.card:hover {
+  border-color: var(--accent2);
+  box-shadow: 0 20px 80px rgba(124, 58, 237, 0.25);
+}
+
+.card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  transform: translateZ(40px); /* Makes text pop out */
+  color: #fff;
+}
+
+.card p {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.6;
+  transform: translateZ(20px);
+}
+
+/* ===== POP REVEAL ANIMATION ===== */
+.reveal {
+  opacity: 0;
+  transform: scale(0.8) translateY(50px);
+  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); /* Elastic "Poppy" feel */
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Stagger delay for cards in the same grid */
+.grid .reveal:nth-child(1) { transition-delay: 0.1s; }
+.grid .reveal:nth-child(2) { transition-delay: 0.2s; }
+.grid .reveal:nth-child(3) { transition-delay: 0.3s; }
+
+footer { padding: 80px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); color: var(--muted); }
+/* ===== HERO CTA BUTTON ===== */
+.btn-primary{
+  margin-top:30px;
+  padding:16px 38px;
+  border-radius:16px;
+  font-weight:700;
+  font-size:1rem;
+  color:#fff;
+  text-decoration:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:
+    0 10px 40px rgba(124,58,237,.45),
+    inset 0 0 0 1px rgba(255,255,255,.15);
+  transition: 
+    transform .35s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .35s ease,
+    filter .35s ease;
+  position:relative;
+  width:fit-content;
+}
+
+/* Glow ring */
+.btn-primary::after{
+  content:'';
+  position:absolute;
+  inset:-2px;
+  border-radius:inherit;
+  background:linear-gradient(135deg,var(--accent2),var(--accent));
+  filter:blur(18px);
+  opacity:.6;
+  z-index:-1;
+  transition:.35s;
+}
+
+.btn-primary:hover{
+  transform:translateY(-6px) scale(1.05);
+  box-shadow:
+    0 25px 70px rgba(34,211,238,.45),
+    inset 0 0 0 1px rgba(255,255,255,.25);
+  filter:brightness(1.1);
+}
+
+.btn-primary:hover::after{
+  opacity:1;
+}
+
+.btn-primary:active{
+  transform:translateY(-2px) scale(1.02);
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="canvas-bg"></canvas>
+
+<nav class="nav">
+  <a href="index.html" class="logo">SANJI<span>ESTATE</span></a>
+  <div class="nav-links">
+    <a href="#residential">Residential</a>
+    <a href="#commercial">Commercial</a>
+    <a href="index.html" class="nav-cta">Contact Me</a>
+  </div>
+</nav>
+
+<div class="wrapper">
+
+<section class="hero reveal">
+  <h1>Cinematic<br><span>Architecture.</span></h1>
+  <p>Pushing the boundaries of real estate design through motion and digital craftsmanship.</p>
+  <a href="#residential" class="btn-primary" style="display:inline-block; margin-top:30px;">View Collection</a>
+</section>
+
+<section id="residential">
+  <h2 class="section-title reveal" style="font-size: 2.5rem; margin-bottom: 3rem;">Residential Collection</h2>
+  <div class="grid">
+    <div class="card reveal">
+      <h3>Skyline Towers</h3>
+      <p>Luxury suites floating above the clouds with smart-glass technology.</p>
+    </div>
+    <div class="card reveal">
+      <h3>Azure Node</h3>
+      <p>Self-sustaining habitat nodes built with eco-conscious 3D printing.</p>
+    </div>
+    <div class="card reveal">
+      <h3>Vertex Heights</h3>
+      <p>Architecture that breathes. Modern villas with integrated air filtration.</p>
+    </div>
+  </div>
+</section>
+
+<section id="commercial">
+  <h2 class="section-title reveal" style="font-size: 2.5rem; margin-bottom: 3rem;">Commercial Assets</h2>
+  <div class="grid">
+    <div class="card reveal">
+      <h3>Quantum Plaza</h3>
+      <p>Decentralized office spaces for high-frequency trading and tech hubs.</p>
+    </div>
+    <div class="card reveal">
+      <h3>Neon Retail</h3>
+      <p>Immersive shopping corridors with holographic storefront capabilities.</p>
+    </div>
+    <div class="card reveal">
+      <h3>Cyber Core</h3>
+      <p>Hardened data centers and research labs for the 2026 tech boom.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Sanji — Built for the Future</p>
+  <p style="margin-top:10px; font-size: 0.8rem;">sanjizizsss@gmail.com</p>
+</footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// --- 3D BACKGROUND ---
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,1000);
+const renderer=new THREE.WebGLRenderer({canvas:document.getElementById('canvas-bg'),alpha:true,antialias:true});
+renderer.setSize(innerWidth,innerHeight);
+
+const p1 = new THREE.PointLight(0x7c3aed, 5, 20);
+p1.position.set(5, 5, 5);
+scene.add(p1);
+
+const p2 = new THREE.PointLight(0x22d3ee, 5, 20);
+p2.position.set(-5, -5, 5);
+scene.add(p2);
+
+const group=new THREE.Group();
+const geometry = new THREE.SphereGeometry(1, 64, 64);
+for(let i=0;i<15;i++){
+  const material = new THREE.MeshStandardMaterial({
+    color: i % 2 === 0 ? 0x7c3aed : 0x22d3ee,
+    metalness: 1,
+    roughness: 0.1,
+  });
+  const s = new THREE.Mesh(geometry, material);
+  s.position.set((Math.random()-.5)*20,(Math.random()-.5)*15,(Math.random()-.5)*10);
+  const scale = Math.random() * 0.5 + 0.1;
+  s.scale.set(scale, scale, scale);
+  s.userData={sx:(Math.random()-.5)*.008, sy:(Math.random()-.5)*.008};
+  group.add(s);
+}
+scene.add(group);
+camera.position.z=10;
+
+// --- MOUSE & TILT LOGIC ---
+let mx=0, my=0;
+addEventListener('mousemove', e => {
+  mx = (e.clientX / innerWidth) - 0.5;
+  my = (e.clientY / innerHeight) - 0.5;
+
+  // Custom property for shine effect on cards
+  document.querySelectorAll('.card').forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--x', `${x}px`);
+    card.style.setProperty('--y', `${y}px`);
+
+    // 3D Tilt calculation
+    const rotateY = ((x / rect.width) - 0.5) * 30;
+    const rotateX = ((y / rect.height) - 0.5) * -30;
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+  });
+});
+
+// Reset tilt on mouse leave
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = `rotateX(0deg) rotateY(0deg) translateY(0px)`;
+  });
+});
+
+(function animate(){
+  requestAnimationFrame(animate);
+  group.rotation.y += 0.002;
+  group.children.forEach(s => {
+    s.position.x += s.userData.sx;
+    s.position.y += s.userData.sy;
+  });
+  camera.position.x += (mx*4 - camera.position.x) * 0.05;
+  camera.position.y += (-my*4 - camera.position.y) * 0.05;
+  camera.lookAt(scene.position);
+  renderer.render(scene, camera);
+})();
+
+// --- REVEAL ON SCROLL ---
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) entry.target.classList.add('active');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+
+</body>
+</html>

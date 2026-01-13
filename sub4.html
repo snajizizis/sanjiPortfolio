@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI / UX Design — Sanji</title>
+
+<style>
+:root{
+  --bg:#0b0d12;
+  --panel:#11131a;
+  --text:#f4f4f5;
+  --muted:#9ca3af;
+  --purple:#7c3aed;
+}
+
+/* ===== RESET ===== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+body{
+  background:radial-gradient(circle at top, #15122a, var(--bg));
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding:6rem 8vw;
+}
+
+.hero-content{
+  max-width:900px;
+}
+
+.hero h1{
+  font-size:clamp(3rem,6vw,6rem);
+  line-height:1.05;
+}
+
+.hero h1 span{
+  color:var(--purple);
+}
+
+.hero p{
+  margin-top:1.5rem;
+  font-size:1.1rem;
+  color:var(--muted);
+  max-width:650px;
+}
+
+/* ===== DROP TEXT ANIMATION ===== */
+.drop{
+  opacity:0;
+  transform:translateY(-40px);
+  animation:dropIn .9s ease forwards;
+}
+
+.drop.delay{
+  animation-delay:.25s;
+}
+
+@keyframes dropIn{
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+/* ===== SECTIONS ===== */
+.section{
+  padding:6rem 8vw;
+}
+
+.section-title{
+  font-size:2.5rem;
+  margin-bottom:3rem;
+}
+
+/* ===== PRINCIPLES (3D CARDS) ===== */
+.principles{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:2rem;
+  perspective:1200px;
+}
+
+.card{
+  background:linear-gradient(180deg, #15132c, #0e0c1b);
+  padding:2.2rem;
+  border-radius:20px;
+  border:1px solid rgba(124,58,237,.4);
+  box-shadow:0 15px 40px rgba(124,58,237,.18);
+  transform-style:preserve-3d;
+  transition:.35s ease;
+}
+
+.card:hover{
+  transform:rotateX(6deg) rotateY(-6deg) translateY(-8px);
+  box-shadow:0 30px 80px rgba(124,58,237,.35);
+}
+
+.card h3{
+  font-size:1.4rem;
+  margin-bottom:1rem;
+  color:#fff;
+}
+
+.card p{
+  color:var(--muted);
+  font-size:.95rem;
+}
+
+/* ===== UX PROCESS SLIDE ===== */
+.timeline{
+  display:grid;
+  gap:3rem;
+}
+
+.step{
+  display:grid;
+  grid-template-columns:70px 1fr;
+  gap:1.5rem;
+}
+
+.step span{
+  font-size:2rem;
+  color:var(--purple);
+  opacity:.8;
+}
+
+.step h4{
+  font-size:1.3rem;
+  margin-bottom:.4rem;
+}
+
+.step p{
+  color:var(--muted);
+}
+
+/* ===== FAKE 3D UX MODELS ===== */
+.ux-model{
+  margin-top:4rem;
+  display:flex;
+  gap:2rem;
+  flex-wrap:wrap;
+}
+
+.model-box{
+  flex:1;
+  min-width:240px;
+  background:linear-gradient(180deg, #15132c, #0e0c1b);
+  padding:2rem;
+  border-radius:18px;
+  border:1px solid rgba(124,58,237,.4);
+  box-shadow:0 18px 50px rgba(124,58,237,.25);
+  transition:.35s ease;
+}
+
+.model-box:hover{
+  transform:translateY(-10px) scale(1.03);
+  box-shadow:0 35px 90px rgba(124,58,237,.45);
+}
+
+.model-box h5{
+  font-size:1.2rem;
+  margin-bottom:.5rem;
+  color:#fff;
+}
+
+.model-box p{
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+/* ===== CTA ===== */
+.cta{
+  text-align:center;
+  padding:6rem 8vw;
+}
+
+.cta h2{
+  font-size:3rem;
+}
+
+.cta p{
+  margin:1rem auto 2rem;
+  color:var(--muted);
+  max-width:500px;
+}
+
+.cta a{
+  display:inline-block;
+  padding:1rem 2.5rem;
+  border-radius:50px;
+  text-decoration:none;
+  color:#fff;
+  background:linear-gradient(135deg, var(--purple), #4f46e5);
+  font-weight:600;
+}
+
+/* ===== REVEAL (PERFORMANCE SAFE) ===== */
+.reveal{
+  opacity:0;
+  transform:translateX(40px);
+  transition:.8s ease;
+  will-change:transform, opacity;
+}
+
+.reveal.show{
+  opacity:1;
+  transform:none;
+}
+/* ================= BACKGROUND 3D AMBIENCE ================= */
+
+.bg-3d{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ===== FLOATING ORBS ===== */
+
+.orb{
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124,58,237,.35), transparent 60%);
+  filter: blur(20px);
+  animation: float 18s ease-in-out infinite;
+}
+
+.orb-1{
+  top: 10%;
+  left: 5%;
+}
+
+.orb-2{
+  top: 60%;
+  left: 70%;
+  width: 340px;
+  height: 340px;
+  animation-duration: 22s;
+}
+
+.orb-3{
+  top: 30%;
+  left: 45%;
+  width: 200px;
+  height: 200px;
+  animation-duration: 16s;
+}
+
+@keyframes float{
+  0%,100%{ transform: translateY(0) translateX(0); }
+  50%{ transform: translateY(-40px) translateX(30px); }
+}
+
+/* ===== FAKE 3D WIREFRAME CUBES ===== */
+
+.cube{
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 1px solid rgba(124,58,237,.6);
+  transform-style: preserve-3d;
+  animation: spin 20s linear infinite;
+}
+
+.cube::before,
+.cube::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  border:1px solid rgba(124,58,237,.3);
+  transform: translateZ(40px);
+}
+
+.cube-1{
+  top: 20%;
+  right: 10%;
+}
+
+.cube-2{
+  bottom: 15%;
+  left: 15%;
+  animation-duration: 26s;
+}
+
+@keyframes spin{
+  from{ transform: rotateX(0deg) rotateY(0deg); }
+  to{ transform: rotateX(360deg) rotateY(360deg); }
+}
+
+/* ===== CONTENT ABOVE BACKGROUND ===== */
+.hero,
+.section,
+.cta{
+  position: relative;
+  z-index: 2;
+}
+
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="drop">UI / UX<br><span>Design Systems</span></h1>
+    <p class="drop delay">
+      I design interfaces that communicate instantly, move intentionally,
+      and guide users without instructions.
+    </p>
+  </div>
+</section>
+
+<section class="section reveal">
+  <h2 class="section-title">Core Design Principles</h2>
+  <div class="principles">
+    <div class="card"><h3>Visual Hierarchy</h3><p>Attention before action.</p></div>
+    <div class="card"><h3>Motion Logic</h3><p>Movement explains state.</p></div>
+    <div class="card"><h3>Clarity</h3><p>No unnecessary decoration.</p></div>
+    <div class="card"><h3>Scalable Systems</h3><p>Consistency wins.</p></div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <h2 class="section-title">My UX Process</h2>
+  <div class="timeline">
+    <div class="step"><span>01</span><div><h4>User</h4><p>Understand behavior.</p></div></div>
+    <div class="step"><span>02</span><div><h4>Structure</h4><p>Flows before visuals.</p></div></div>
+    <div class="step"><span>03</span><div><h4>Interface</h4><p>Design the system.</p></div></div>
+    <div class="step"><span>04</span><div><h4>Motion</h4><p>Feedback & polish.</p></div></div>
+  </div>
+
+  <div class="ux-model">
+    <div class="model-box"><h5>User-Centered</h5><p>Design for humans.</p></div>
+    <div class="model-box"><h5>System Thinking</h5><p>Everything connects.</p></div>
+    <div class="model-box"><h5>Performance</h5><p>Speed = trust.</p></div>
+  </div>
+</section>
+
+<section class="cta reveal">
+  <h2>Design That Feels Alive</h2>
+  <p>UI shows. UX proves.</p>
+  <a href="index.html">Back to Portfolio</a>
+</section>
+<div class="bg-3d">
+  <span class="orb orb-1"></span>
+  <span class="orb orb-2"></span>
+  <span class="orb orb-3"></span>
+
+  <div class="cube cube-1"></div>
+  <div class="cube cube-2"></div>
+</div>
+
+
+<script>
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('show');
+      observer.unobserve(e.target);
+    }
+  });
+},{threshold:0.15});
+
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>

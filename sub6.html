@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full-Stack Basics — Sanji</title>
+
+<style>
+:root{
+  --bg:#0b0d12;
+  --panel:#11131a;
+  --text:#f4f4f5;
+  --muted:#9ca3af;
+  --purple:#7c3aed;
+  --accent:#22d3ee;
+}
+
+/* ===== RESET ===== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',system-ui,sans-serif;}
+body{background:#0b0d12;color:var(--text);overflow-x:hidden;line-height:1.6;}
+a{text-decoration:none;color:inherit;}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding:6rem 8vw;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-content{max-width:900px;}
+
+.hero h1{font-size:clamp(3rem,6vw,6rem);line-height:1.05;}
+.hero h1 span{color:var(--purple);}
+.hero p{margin-top:1.5rem;font-size:1.1rem;color:var(--muted);max-width:650px;}
+
+/* ===== REVEAL ANIMATIONS ===== */
+.reveal{opacity:0;transform:translateY(40px);transition:.8s ease;will-change:transform,opacity;}
+.reveal.show{opacity:1;transform:none;}
+
+/* ===== SECTIONS ===== */
+.section{padding:6rem 8vw;position:relative;z-index:2;}
+.section-title{font-size:2.5rem;margin-bottom:3rem;}
+
+/* ===== CARDS ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:2rem;
+  perspective:1200px;
+}
+
+.card{
+  background:linear-gradient(180deg,#15132c,#0e0c1b);
+  padding:2rem;
+  border-radius:20px;
+  border:1px solid rgba(124,58,237,.4);
+  box-shadow:0 15px 40px rgba(124,58,237,.18);
+  transform-style:preserve-3d;
+  transition:.35s ease;
+}
+
+.card:hover{transform:rotateX(6deg) rotateY(-6deg) translateY(-10px);box-shadow:0 30px 80px rgba(124,58,237,.35);}
+.card h3{font-size:1.4rem;margin-bottom:1rem;color:#fff;}
+.card p{color:var(--muted);font-size:.95rem;}
+
+/* ===== FAKE 3D MODELS ===== */
+.model-container{display:flex;flex-wrap:wrap;gap:2rem;margin-top:3rem;}
+.model-box{
+  flex:1;
+  min-width:240px;
+  background:linear-gradient(180deg,#15132c,#0e0c1b);
+  padding:2rem;
+  border-radius:18px;
+  border:1px solid rgba(124,58,237,.4);
+  box-shadow:0 18px 50px rgba(124,58,237,.25);
+  transition:.35s ease;
+}
+.model-box:hover{transform:translateY(-10px) scale(1.03);box-shadow:0 35px 90px rgba(124,58,237,.45);}
+.model-box h5{font-size:1.2rem;margin-bottom:.5rem;color:#fff;}
+.model-box p{color:var(--muted);font-size:.9rem;}
+
+/* ===== FLOATING ORBS & CUBES ===== */
+.bg-3d{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;background:radial-gradient(circle, rgba(124,58,237,.35), transparent 60%);filter: blur(20px);animation:float 18s ease-in-out infinite;}
+.orb-1{top:10%;left:5%;width:280px;height:280px;}
+.orb-2{top:60%;left:70%;width:340px;height:340px;animation-duration:22s;}
+.orb-3{top:30%;left:45%;width:200px;height:200px;animation-duration:16s;}
+
+@keyframes float{0%,100%{transform:translateY(0) translateX(0);}50%{transform:translateY(-40px) translateX(30px);}}
+
+.cube{position:absolute;width:120px;height:120px;border:1px solid rgba(124,58,237,.6);transform-style:preserve-3d;animation:spin 20s linear infinite;}
+.cube::before,.cube::after{content:'';position:absolute;inset:0;border:1px solid rgba(124,58,237,.3);transform: translateZ(40px);}
+.cube-1{top:20%;right:10%;}
+.cube-2{bottom:15%;left:15%;animation-duration:26s;}
+@keyframes spin{from{transform:rotateX(0deg) rotateY(0deg);}to{transform:rotateX(360deg) rotateY(360deg);}}
+
+/* ===== CTA ===== */
+.cta{text-align:center;padding:6rem 8vw;position:relative;z-index:2;}
+.cta h2{font-size:3rem;}
+.cta p{margin:1rem auto 2rem;color:var(--muted);max-width:500px;}
+.cta a{display:inline-block;padding:1rem 2.5rem;border-radius:50px;text-decoration:none;color:#fff;background:linear-gradient(135deg, var(--purple), var(--accent));font-weight:600;transition:.35s ease;}
+.cta a:hover{transform:scale(1.05);}
+
+/* ===== MEDIA ===== */
+@media(max-width:900px){
+  .hero{padding:6rem 4vw;}
+  .section{padding:6rem 4vw;}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-content reveal">
+    <h1>Full-Stack Basics<br><span>Development</span></h1>
+    <p>Backend logic, APIs, databases — enough to ship real products.</p>
+  </div>
+</section>
+
+<section class="section reveal">
+  <h2 class="section-title">Core Skills</h2>
+  <div class="grid">
+    <div class="card reveal"><h3>HTML & CSS</h3><p>Structure and style modern applications efficiently.</p></div>
+    <div class="card reveal"><h3>JavaScript</h3><p>Dynamic, interactive, responsive front-end experiences.</p></div>
+    <div class="card reveal"><h3>Node.js</h3><p>Server-side logic, APIs, and real-time applications.</p></div>
+    <div class="card reveal"><h3>Database Management</h3><p>SQL & NoSQL solutions for storing and querying data.</p></div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <h2 class="section-title">Projects & Practice</h2>
+  <div class="model-container">
+    <div class="model-box reveal"><h5>RESTful API</h5><p>Build and deploy APIs connecting front-end and back-end.</p></div>
+    <div class="model-box reveal"><h5>Authentication System</h5><p>Secure login, JWT, OAuth integration.</p></div>
+    <div class="model-box reveal"><h5>Full-Stack App</h5><p>End-to-end product combining UI, logic, database.</p></div>
+    <div class="model-box reveal"><h5>Real-Time Chat</h5><p>Socket.io powered communication between users.</p></div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <h2 class="section-title">Deployment & DevOps</h2>
+  <div class="grid">
+    <div class="card reveal"><h3>Cloud Hosting</h3><p>Deploy applications on AWS, Vercel, or Heroku.</p></div>
+    <div class="card reveal"><h3>CI/CD</h3><p>Automated deployment pipelines for smooth updates.</p></div>
+    <div class="card reveal"><h3>Version Control</h3><p>Git workflow for teamwork and collaboration.</p></div>
+    <div class="card reveal"><h3>Containerization</h3><p>Dockerized environments for reproducibility.</p></div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <h2 class="section-title">Advanced Full-Stack Concepts</h2>
+  <div class="model-container">
+    <div class="model-box reveal"><h5>GraphQL APIs</h5><p>Query and mutate data efficiently.</p></div>
+    <div class="model-box reveal"><h5>Serverless Functions</h5><p>Lightweight backend code on-demand.</p></div>
+    <div class="model-box reveal"><h5>Microservices</h5><p>Decoupled, scalable system architecture.</p></div>
+    <div class="model-box reveal"><h5>Testing & QA</h5><p>Unit tests, integration tests, and end-to-end testing.</p></div>
+  </div>
+</section>
+
+<section class="cta reveal">
+  <h2>Level Up Your Full-Stack Skills</h2>
+  <p>Build complete applications, learn deployment, and master scalable development.</p>
+  <a href="index.html">Back to Portfolio</a>
+</section>
+
+<div class="bg-3d">
+  <span class="orb orb-1"></span>
+  <span class="orb orb-2"></span>
+  <span class="orb orb-3"></span>
+  <div class="cube cube-1"></div>
+  <div class="cube cube-2"></div>
+</div>
+
+<script>
+// Reveal on scroll
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('show'); observer.unobserve(e.target); }
+  });
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>

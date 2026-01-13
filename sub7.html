@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Startup Investment & Equity Growth — Sanji</title>
+
+<style>
+:root{
+  --bg:#0b0d12;
+  --panel:#11131a;
+  --text:#f4f4f5;
+  --muted:#9ca3af;
+  --accent:#7c3aed;
+  --accent2:#22d3ee;
+}
+
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
+body{
+  background:
+    radial-gradient(900px 400px at 10% 10%,#2b145f 0%,transparent 50%),
+    radial-gradient(800px 500px at 90% 30%,#1e3a8a 0%,transparent 55%),
+    var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit}
+
+/* FLOATING SPHERES */
+.sphere{
+  position:fixed;
+  width:120px;height:120px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,var(--accent),transparent 70%);
+  box-shadow:0 0 80px var(--accent);
+  animation:float 10s ease-in-out infinite;
+  pointer-events:none;
+}
+.sphere:nth-child(1){top:15%;left:10%}
+.sphere:nth-child(2){top:55%;left:80%;animation-delay:3s}
+.sphere:nth-child(3){top:75%;left:25%;animation-delay:6s}
+
+@keyframes float{
+  0%,100%{transform:translate(0,0)}
+  50%{transform:translate(25px,-30px)}
+}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:120px 8vw;
+}
+.hero-content{
+  max-width:900px;
+  text-align:center;
+}
+.hero h1{
+  font-size:clamp(3rem,6vw,6rem);
+  line-height:1.05;
+}
+.hero h1 span{color:var(--accent)}
+.hero p{
+  margin-top:20px;
+  color:var(--muted);
+  font-size:1.1rem;
+  max-width:700px;
+  margin-inline:auto;
+}
+
+/* SECTIONS */
+.section{
+  padding:120px 8vw;
+}
+.section-title{
+  font-size:2.5rem;
+  text-align:center;
+  margin-bottom:60px;
+  color:var(--accent2);
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:28px;
+  perspective:1200px;
+}
+
+/* 3D CARD */
+.card{
+  background:linear-gradient(160deg,#1a1d29,#0d0f16);
+  border-radius:24px;
+  padding:30px;
+  border:1px solid rgba(124,58,237,.4);
+  box-shadow:0 20px 60px rgba(124,58,237,.25);
+  transform-style:preserve-3d;
+  transition:transform .25s ease, box-shadow .25s ease;
+  position:relative;
+  overflow:hidden;
+}
+.card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);
+  opacity:0;
+  transition:.4s ease;
+}
+.card:hover::after{opacity:1}
+.card h3{
+  font-size:1.35rem;
+  margin-bottom:10px;
+}
+.card p{
+  color:var(--muted);
+  font-size:.95rem;
+}
+
+/* MODEL BOXES */
+.model-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:28px;
+}
+.model-box{
+  background:linear-gradient(160deg,#1a1d29,#0d0f16);
+  padding:28px;
+  border-radius:22px;
+  border:1px solid rgba(124,58,237,.45);
+  box-shadow:0 18px 55px rgba(124,58,237,.3);
+  transform-style:preserve-3d;
+  transition:.3s ease;
+}
+.model-box:hover{
+  transform:translateY(-10px) scale(1.05);
+  box-shadow:0 35px 90px rgba(124,58,237,.5);
+}
+.model-box h5{
+  font-size:1.2rem;
+  margin-bottom:8px;
+}
+.model-box p{
+  color:var(--muted);
+  font-size:.95rem;
+}
+
+/* CTA */
+.cta{
+  text-align:center;
+  padding:120px 8vw;
+}
+.cta h2{
+  font-size:3rem;
+  color:var(--accent);
+}
+.cta p{
+  color:var(--muted);
+  max-width:520px;
+  margin:18px auto 28px;
+}
+.cta a{
+  display:inline-block;
+  padding:14px 34px;
+  border-radius:16px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:#fff;
+  font-weight:600;
+  transition:.3s ease;
+}
+.cta a:hover{
+  transform:translateY(-4px) scale(1.05);
+}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:.8s ease}
+.reveal.show{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .hero{padding-top:140px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="sphere"></div>
+<div class="sphere"></div>
+<div class="sphere"></div>
+
+<section class="hero">
+  <div class="hero-content reveal">
+    <h1>Startup Investment<br><span>Equity Growth</span></h1>
+    <p>Empowering startups with smart investments, strategic equity growth, and scalable business solutions.</p>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title reveal">Investment Pillars</h2>
+  <div class="grid">
+    <div class="card reveal"><h3>Seed Funding</h3><p>Kickstart early-stage startups with strategic capital infusion.</p></div>
+    <div class="card reveal"><h3>Equity Structuring</h3><p>Designing ownership models for long-term growth.</p></div>
+    <div class="card reveal"><h3>Venture Growth</h3><p>Support rapid expansion with scaling strategies and mentorship.</p></div>
+    <div class="card reveal"><h3>Risk Analysis</h3><p>Mitigate financial risks with thorough market and data insights.</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title reveal">Portfolio Strategies</h2>
+  <div class="model-container">
+    <div class="model-box reveal"><h5>Startup Scouting</h5><p>Identify high-potential startups early and analyze opportunities.</p></div>
+    <div class="model-box reveal"><h5>Equity Allocation</h5><p>Smart distribution of shares to optimize returns.</p></div>
+    <div class="model-box reveal"><h5>Mentorship Programs</h5><p>Provide expert guidance to founders for scalable growth.</p></div>
+    <div class="model-box reveal"><h5>Exit Planning</h5><p>Strategic planning for buyouts, IPOs, and mergers.</p></div>
+  </div>
+</section>
+
+<section class="cta reveal">
+  <h2>Grow With Us</h2>
+  <p>Invest in tomorrow’s leading startups and maximize equity growth today.</p>
+  <a href="sub3.html">Back To Home</a>
+</section>
+
+<script>
+/* Reveal */
+const obs=new IntersectionObserver(e=>{
+  e.forEach(x=>{
+    if(x.isIntersecting){x.target.classList.add('show');obs.unobserve(x.target)}
+  })
+},{threshold:.15})
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el))
+
+/* 3D Tilt */
+document.querySelectorAll('.card,.model-box').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect()
+    const x=e.clientX-r.left
+    const y=e.clientY-r.top
+    const rx=((y/r.height)-0.5)*-10
+    const ry=((x/r.width)-0.5)*10
+    card.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`
+  })
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform=''
+  })
+})
+</script>
+
+</body>
+</html>
